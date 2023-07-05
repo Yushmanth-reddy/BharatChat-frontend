@@ -1,10 +1,8 @@
 import { useRef } from "react";
 
-const Message = ({ msgItem }) => {
-  const ref = useRef();
-  // console.log(msgItem);
+const Message = ({ msgItem, scrollRef }) => {
   return (
-    <div ref={ref} className={`message ${msgItem.fromSelf && "owner"}`}>
+    <div ref={scrollRef} className={`message ${msgItem.fromSelf && "owner"}`}>
       <div className="messageInfo">
         <img
           src="https://img.freepik.com/free-photo/happy-young-female-student-holding-notebooks-from-courses-smiling-camera-standing-spring-clothes-against-blue-background_1258-70161.jpg?w=2000"

@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Message from "./message";
 import { MessageContext } from "../context/messageContext";
 import axios from "axios";
 
-const Messages = () => {
+const Messages = ({ socket }) => {
   const ChatUser = JSON.parse(localStorage.getItem("user"));
   const { id: currentUserId } = ChatUser;
-  const { selecteduser } = useContext(MessageContext);
-  const [messages, setMessages] = useState([]);
+  const { selecteduser, messages, setMessages } = useContext(MessageContext);
+  const scrollRef = useRef();
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     const getmessagesfromserver = async () => {
@@ -19,10 +22,11 @@ const Messages = () => {
     };
     getmessagesfromserver();
   }, [selecteduser]);
+
   return (
     <div className="messages">
       {messages.map((msgItem, i) => (
-        <Message msgItem={msgItem} key={i} />
+        <Message msgItem={msgItem} scrollRef={scrollRef} key={i} />
       ))}
     </div>
   );
